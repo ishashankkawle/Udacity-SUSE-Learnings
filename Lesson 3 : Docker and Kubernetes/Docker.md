@@ -104,7 +104,7 @@ while  creating container provide ```-v``` option to define directory workspace 
 
 #### To copy files in data container:
 Use **docker  cp** command.
-```docker cp temp.txt DataContainer:/config/``
+```docker cp temp.txt DataContainer:/config/```
 This will copy temp.txt into config directory
 
 #### To mount this container to other containers:

@@ -48,7 +48,7 @@ ONBUILD RUN npm install
 ONBUILD COPY . /usr/src/app
 CMD ["npm" , "start"]
 ```
-**.dockerignore** file is same as **.gitignore** file. We can ass files in .dockerignore which we want to exclude from build
+**.dockerignore** file is same as **.gitignore** file. We can add files in .dockerignore which we want to exclude from build
   
 ## Basic Docker commands
 General command structure: 

@@ -56,3 +56,7 @@ Docker Engine is installed and running. The docker group is created but no users
 ### Upgrade Docker Engine
 
 To upgrade Docker Engine, first run `sudo apt-get update`, then follow the [installation instructions](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository), choosing the new version you want to install.
+
+# Contributors:
+
+1. Navin Khandeparkar : [LinkdIn](www.linkedin.com/in/navinkhandeparkar) [Github](https://github.com/Navinkhandeparkar)

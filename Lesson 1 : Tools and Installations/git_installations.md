@@ -11,3 +11,7 @@ $ apt-get install git
 ```
 $ git --version
 ```
+
+# Contributors:
+
+1. Navin Khandeparkar : [LinkdIn](www.linkedin.com/in/navinkhandeparkar) [Github](https://github.com/Navinkhandeparkar)

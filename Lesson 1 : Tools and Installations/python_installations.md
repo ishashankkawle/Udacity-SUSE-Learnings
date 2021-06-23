@@ -121,3 +121,7 @@ After activating an environment you can use the function deactivate to undo the 
 ```
 (yourenv)$ deactivate
 ```
+
+# Contributors:
+
+1. Navin Khandeparkar : [LinkdIn](www.linkedin.com/in/navinkhandeparkar) [Github](https://github.com/Navinkhandeparkar)

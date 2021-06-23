@@ -32,3 +32,7 @@ Be sure that you are in the same directory as the Vagrantfile when running these
 ## Stopping a VM
 
 - `vagrant halt` -- stops the vagrant machine
+
+# Contributors:
+
+1. Navin Khandeparkar : [LinkdIn](www.linkedin.com/in/navinkhandeparkar) [Github](https://github.com/Navinkhandeparkar)

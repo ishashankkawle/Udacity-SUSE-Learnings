@@ -136,6 +136,127 @@ As a result, you will not se service listed using : ```kubectl get svc``` comman
 To find more details about mapping , you can execute below command
  ```docker ps | grep httpexposed```
 
+## Kubernetes Services
+### Service types:
+##### 1) ClusterIp : 
+Exposes a static port internally in the cluster. This type of service is only reachable from within th cluster. This is the DEFAULT type for service.
+
+##### 2) NodePort :
+Exposes service on each nodes ip at static port 'NodePort'. A clusterIp service at each node to which NodePort service routes is automatically created.
+
+##### 3) Load Balaner:
+Exposes service externally using cloud providers load balancer. NodePort & ClusterIp services to which external loadbalancer routes are automatically created.
+
+When pods have same labels a label selector is used in service to bind pods with service. All these pods will automatically get load balanced behind that service.
+
+Below is the sample **deployment.yaml** to deploy the pods.
+```yaml
+apiVersion: V1
+kind: Deployment
+spec:
+ replicas: 4
+ selector:
+   matchlabels:
+     app: webapp1
+template:
+ metadata:
+   labels:
+     app: webapp1
+ spec:
+   containers:
+     - name: webapp1
+       image: nginx:alpine
+       ports:
+         - containerPort: 80
+```
+Below is sample **service.yaml** file to create service which will expose pods.
+
+```yaml
+apiVersion: V1
+kind: Service
+metadata:
+  name: web-svc
+  labels: 
+    app: webapp1
+  spec:
+    type: NodePort
+    ports:
+      -	port: 80
+        nodePort: 30080
+    selector:
+      app: webapp1
+```
+
+In above service.yaml file ``` -	port``` is the container port where service will redirect the request.
+```nodePort``` is the exposed port which we use as below:
+```curl localhost:3000```
+
+If we want to conect service to any pods we have to add below keywords in its yaml file.
+```yaml
+selector:   #Defines how to select pods
+ app: webapp1 #webapp1 is the label which is assigneed to pods
+```
+We can interprete this like select all pods with label **webapp1**
+
+### ClusterIp Service:
+The format for ClusterIp service yaml file is as below:
+```yaml
+apiVersion: V1
+kind: Service
+metadata:
+  name: cluster-service
+  labels:
+    app: cluster-svc-1
+spec:
+  ports:
+    -	port: 8080
+      targetPort: 80
+  selector:
+    app: webapp1
+```
+ **targetPort** is port which application is configured o listen on. **Port** is how application will be accessed from outside but from within the cluster.
+
+### NodePort Service:
+While CluterIp service exposes nodes ip inside the cluster, NodePort service exposes nodes ips outside of cluster via static port.
+
+```yaml
+apiVersion: V1
+kind: Service
+metadata:
+  name: Node-service
+  labels:
+    app: Node-svc-1
+spec:
+  type: NodePort
+  ports:
+    -	port: 80
+      nodePort: 30080
+  selector:
+    app: webapp1
+```
+In NodePort type of service if you didn't assign **nodePort** value, kubernetes will assign available port randomly.
+To find out which port got assigned, use below command:
+```kubectl describe svc Node-service | grep NodePort```
+ 
+### Exposing Service via External-Ip:
+Another approach to make a service available outside the cluster is via External-Ip address.
+
+```yaml
+apiVersion: V1
+kind: Service
+metadata:
+  name: extip-service
+  labels:
+    app: ext-svc-1
+spec:
+  ports:
+    -	port: 80
+  externalIps:
+    -	172.17.0.18
+  selector:
+    app: webapp1
+```
+This service is now bounded to external ip and port 80 of master node.
 
 ## Contributors:
 1) Shashank Kawle : [LinkdIn](https://www.linkedin.com/in/ishashankkawle/) [Github](https://github.com/ishashankkawle)

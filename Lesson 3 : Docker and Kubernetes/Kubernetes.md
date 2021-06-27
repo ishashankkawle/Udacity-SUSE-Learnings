@@ -117,16 +117,23 @@ Use curl command with binded ip:
 
 ### Run and Expose deployment through Single Command:
 With **kubectl run** it is possible to create deployment & expose at a same time.
+
 We can use ```--hostport``` option with kubectl to expose deployment.
+
 Example:
  ```kubectl run httpexposed --image=nginx-alpine --replicas=3 --port=80 --hostport=8001```
- You can access the application via curl as below.
+
+You can access the application via curl as below.
  ```curl http://127.0.0.1:8001```
- Under the cover this exposes port via **docker port mapping** and not by creating handler service. Docker port mapping is nothing but exposing port via ```-p``` option.
- Example:
- ```docker run -d -p 8080:80 my-image```
- As a result, you will not se service listed using : ```kubectl get svc``` command.
- To find more details about mapping , you can execute below command
+
+Under the cover this exposes port via **docker port mapping** and not by creating handler service. Docker port mapping is nothing but exposing port via ```-p``` option.
+Example:
+
+```docker run -d -p 8080:80 my-image```
+
+As a result, you will not se service listed using : ```kubectl get svc``` command.
+
+To find more details about mapping , you can execute below command
  ```docker ps | grep httpexposed```
 
 

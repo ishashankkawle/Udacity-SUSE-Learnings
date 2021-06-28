@@ -282,5 +282,132 @@ spec:
 ```
 This service is now bounded to external ip and port 80 of master node.
 
+## Persistent Volumes
+Pods can read/write data in/from persistent volumes by mounting specific directory on pod with host/nfs server.
+For learning purpose we are using host to store data. For production we use protocols like nfs which exposes directory from master node to pods for data persistency.
+#### 3 Artefacts:
+1. Persistent Volume
+2. Persistent Volume Claim
+3. Pod to mount directory
+
+#### Reclaim Policies:
+##### Delete: 
+Persistent Volume will be deleted when Personal Volume Claim is deleted but data will persist.
+
+##### Recycle:
+Volume contents will be deleted. Persistent Volume will be available to be claimed again
+
+##### Retain:
+This is DEFAULT policy. Persistent Volume will be retained with all data. even after claim mapped to it is deleted. Volume will be available again for new claim to be mapped.
+
+#### Access Modes:
+##### ReadWriteOnce:
+Only Single node can mount for Read / write.
+
+##### ReadWriteMany:
+Multiple nodes can mount for Read / write.
+
+##### ReadOnlyMany:
+Multiple nodes can mount for read only.
+
+####  1) Deploy Persistent Volume 
+It defines space to store data. When container has finished with the volume, data can be **Retained** for future use or **Recycled** meaning all data will be deleted. This is defined by ```persistentVolumeReclaimPolicy``` option
+Sample **persistentVolume.yaml** is given below:
+```yaml
+apiVersion: V1
+kind: PersistantVolume
+metadata:
+ name: <friendly name>
+spec: 
+ capacity:
+  storage: 5Gi
+ accessModes:
+  - ReadWriteOnce
+  - ReadWriteMany
+ persistentVolumeReclaimPolicy: Recycle
+ hostPath:
+  path: /home/my_dir/vol
+```
+Where ```hostPath``` is used for mounting directories from worker node's file system into pod.
+Whenever we are using nfs, then instead of hostPath we provide nfs configuration as below.
+
+```yaml
+nfs:
+ server: <server-name>
+ path: <shared-path>
+```
+To view all Persistent Volumes:
+
+```kubectl get pv``` 
+
+#### 2) Deploy Persistent Volume Claim
+Claim is designed to stop apps accidently writing to other volume resulting in data corruption. Claim specifies requirement for volume. This includes read/ write access & storage space required.
+
+Sample **persistentVolumeClaim.yaml** is given below:
+```yaml
+apiVersion: V1
+kind: PersistentVolumeClaim
+metadata:
+ name: my-claim
+spec:
+ accessMode:
+  - ReadWriteOnce
+ resources:
+  request:
+   storage: 3Gi
+```
+
+Claims will get mapped with Persistent volume automatically which satisfy storage quota.
+To view all Persistent Volume Claims:
+
+```kubectl get pvc``` 
+
+>**Note:** If PVC doesn't find any Persistent Volume that meets quota, it will remain in*pending* state until volume is available. 
+>Similarly, if PVC is not assigned to any volume, then pod will remain in*pending* state until it became available.
+
+
+#### 3) Deploy the POD
+We are going to map */var/lib/mydata* folder to */home/my_dir/vol* folder defined for Persistent Volume.
+What this mean is */var/lib/mydata* & */home/my_dir/vol* will be in SYNC and will act as a single directory.
+Sample **pod.yaml** is given below:
+```yaml
+apiVersion: V1
+kind: Pod
+metadata:
+ name: my-pod
+ labels:
+  name: pod1
+spec:
+ containers:
+  - name: con1
+   image: nginx:alpine
+ ports:
+  - containerPort: 80
+ volumeMounts:
+  - name: <some friendly name>
+  mountPath: /var/lib/mydata
+volumes:
+ - name: <friendly name>
+ persistentVolumeClaim:
+  clainName: my-claim
+```
+
+#### 4) Verify Read / Write
+From host machine, create one file in */home/my_dir/vol* directory.
+```bash
+cd /home/my_dir/vol
+echo "Hello World" > hello.txt
+```
+Now open the interactive terminal of pod & navigate into mounted directory. hello.txt should be present there.
+To open interactive terminal of pod, use below command:
+```kubectl exec -it my-pod /bin/sh```
+
+Through interactive terminal of pod, navigate to */var/lib/mydata* and verify if hello.txt is present there.
+```bash
+cd /var/lib/mydata
+ls
+cat hello.txt
+```
+
 ## Contributors:
 1) Shashank Kawle : [LinkdIn](https://www.linkedin.com/in/ishashankkawle/) [Github](https://github.com/ishashankkawle)

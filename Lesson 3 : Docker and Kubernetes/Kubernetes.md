@@ -45,6 +45,7 @@ To get more detailed output you can pass ```-o wide``` option with kubectl get  
 Example: ```kubectl get pods -o wide```
  
  You can also select any resources based on labels assigned to them using ```--selector``` option.
+ 
  Example: To get all pods with label **webapp1**
  ```kubectl get pods --selector="name=webapp1"```
 
@@ -54,7 +55,9 @@ Kubernetes also maintains history of events. Use below command to get history of
 
 ### To get more detailed Information
 To get more detailed information regarding any component, use ```kubectl describe``` command
+
 Syntax: ```kubectl describe <component-type> <component-name>```
+
 Example:
 ##### To get more information about pod 'my-pod'
 ```kubectl describe pod 'my-pod'```
@@ -64,6 +67,7 @@ Example:
 
 ### To get cluster - level Information
 Similarly, you can check cluster level information with ```kubectl cluster-info``` command
+
 Syntax: ```kubectl cluster-info```
 Also, to get deeper details of each resources in cluster you can generate complete dump of cluster
 
@@ -71,6 +75,18 @@ Also, to get deeper details of each resources in cluster you can generate comple
 
 This will export all the artefacts of cluster including all the namespaces , pods , nodes,services etc. in json format into my_dir folder 
 
+### To execute any command on pod:
+To execute any command on pod use ```kubectl exec``` wit ```-it``` flag is referred to interactive terminal in short form.
+
+Syntax: ```kubectl exec -it <pod name> <command>```
+
+Example :
+```kubectl exec -it my-pod ls```
+
+This can also be used to open interactive terminal of pod as follows:
+```kubectl exec -it my-pod /bin/sh```
+where ```/bin/sh``` is the command to open terminal
+ 
 ### To create new resources in cluster:
 The commands that are used to create new resources in cluster are :
 

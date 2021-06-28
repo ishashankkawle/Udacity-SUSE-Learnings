@@ -254,6 +254,8 @@ spec:
     app: webapp1
 ```
  **targetPort** is port which application is configured o listen on. **Port** is how application will be accessed from outside but from within the cluster.
+ 
+![ClusterIp service](https://github.com/ishashankkawle/Udacity-SUSE-Learnings/blob/f8db9e4f5c930a4e261827188f4e0273bdb7b580/Lesson%203%20:%20Docker%20and%20Kubernetes/Images/ClusterIp%20Service.png "ClusterIp service  architecture")
 
 ### NodePort Service:
 While CluterIp service exposes nodes ip inside the cluster, NodePort service exposes nodes ips outside of cluster via static port.
@@ -276,7 +278,9 @@ spec:
 In NodePort type of service if you didn't assign **nodePort** value, kubernetes will assign available port randomly.
 To find out which port got assigned, use below command:
 ```kubectl describe svc Node-service | grep NodePort```
- 
+
+![NodePort service](https://github.com/ishashankkawle/Udacity-SUSE-Learnings/blob/f8db9e4f5c930a4e261827188f4e0273bdb7b580/Lesson%203%20:%20Docker%20and%20Kubernetes/Images/NodePort%20Service.png "NodePort service  architecture")
+
 ### Exposing Service via External-Ip:
 Another approach to make a service available outside the cluster is via External-Ip address.
 
@@ -296,6 +300,8 @@ spec:
     app: webapp1
 ```
 This service is now bounded to external ip and port 80 of master node.
+
+![Service using Exposed Ip](https://github.com/ishashankkawle/Udacity-SUSE-Learnings/blob/f8db9e4f5c930a4e261827188f4e0273bdb7b580/Lesson%203%20:%20Docker%20and%20Kubernetes/Images/Exposed%20Ip.png "Service using Exposed Ip")
 
 ## Persistent Volumes
 Pods can read/write data in/from persistent volumes by mounting specific directory on pod with host/nfs server.

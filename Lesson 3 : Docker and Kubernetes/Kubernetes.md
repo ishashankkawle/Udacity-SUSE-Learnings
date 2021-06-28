@@ -473,6 +473,22 @@ Kubernetes decodes base64 value while populating environment variables.
 >**Note:** The use of environment variables for storing secret in memory can result in accidental leaking
 >Hence, the recommended approach is to read them from persistent storage file
 
+## Health Check and cAdvisor
+To get status of all components, you can use below command:
+
+```kubectl get componentstatus```
+
+Every node in kubernetes cluster has **kubelet** process. Within each kubelet process is **cAdvisor**. It continously gather metrics about state of resources on each node. This information is available through metrics api.
+
+Kubernetes aggregates cluster-wide metrics api at ```/metrics``` endpoint.
+To curl any kubectl api, you need to start proxy server. Use below command to start proxy server.
+
+```kubectl proxy --port=8080```
+
+##### To explore api list:
+```curl localhost:8080/metrics/```
+
+You can curl any of the metrics from the list to get health related stats. 
 
 ## Contributors:
 1) Shashank Kawle : [LinkdIn](https://www.linkedin.com/in/ishashankkawle/) [Github](https://github.com/ishashankkawle)

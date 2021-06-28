@@ -431,5 +431,48 @@ Syntax: ```kubectl scale --replicas=3 deployment my-deploy```
 
 If replica count is greater that current number of pods, kubernetes will spin-up more containers to match the count. If it is less than current number of pods, kubernetes will shut down some pods to match the replica count. 
 
+## Secrets:
+Secrets are base64 encoded. To define Secrets through yaml file, refer **secrets.yaml** file below:
+```yaml
+apiVersion: V1
+kind:Secret
+metadata:
+ name: test-secret
+type: Opaque
+data:
+ password1: <base 64 encoded string>
+ password2: <base 64 encoded string>
+``` 
+
+To list all secrets:
+```kubectl get secrets```
+
+Whenever you want to consume secrets in yaml with the keys, we use ENVIRONMENT VARIABLES to populate secrets. We will be defining *abc* and *xyz*  variables to store values of *password1* and *password2* as below\
+
+```yaml
+spec:
+ containers:
+  - name: my-pod
+  env:
+   - name: abc
+   valuesFrom:
+    secretKeyRef:
+     name: password1
+     key: password1
+   - name: xyz
+   valuesFrom:
+    secretKeyRef:
+     name: password2
+     key: password2
+```
+
+Kubernetes decodes base64 value while populating environment variables.
+
+```kubectl exec -it my-pod env | grep xyz```
+
+>**Note:** The use of environment variables for storing secret in memory can result in accidental leaking
+>Hence, the recommended approach is to read them from persistent storage file
+
+
 ## Contributors:
 1) Shashank Kawle : [LinkdIn](https://www.linkedin.com/in/ishashankkawle/) [Github](https://github.com/ishashankkawle)

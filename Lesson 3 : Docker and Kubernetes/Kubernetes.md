@@ -47,6 +47,25 @@ Example: ```kubectl get pods -o wide```
 Kubernetes also maintains history of events. Use below command to get history of all events.
 ```kubectl get events```
 
+### To get more detailed Information
+To get more detailed information regarding any component, use ```kubectl describe``` command
+Syntax: ```kubectl describe <component-type> <component-name>```
+Example:
+##### To get more information about pod 'my-pod'
+```kubectl describe pod 'my-pod'```
+
+##### To get more information about service 'my-nodeport-service'
+```kubectl describe pod 'my-nodeport-service'```
+
+### To get cluster - level Information
+Similarly, you can check cluster level information with ```kubectl cluster-info``` command
+Syntax: ```kubectl cluster-info```
+Also, to get deeper details of each resources in cluster you can generate complete dump of cluster
+
+```kubectl cluster-info dump --all-namespaces --output-directory=my_dir --output=json```
+
+This will export all the artefacts of cluster including all the namespaces , pods , nodes,services etc. in json format into my_dir folder 
+
 ### To create new resources in cluster:
 The commands that are used to create new resources in cluster are :
 

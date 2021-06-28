@@ -4,6 +4,11 @@ Kubernetes is container orchestration  framework which is used to manage multipl
 ### Kubernetes vs Docker:
 Docker is used to work on single or more container at a time but not at scale. It is used to create images of application and test out images in local environment. On other hand Kubernetes is used to manage containers at scale. It provides advance functionalities like heath management for containers , data persistency management and much more.
 
+### Deployment and Replica Set
+Deployment is newer and higher level concept. It allows deployment of Replica Set and allows easy updating of Replica Set
+
+Replica Set maintains stable set of pods running at a time. It also guarantee the availability of specified number of identical pods. Replica Sets are similar to Replication Controller which is older version to Replica Set.
+
 ### Basic Command Structure for kubectl:
 ``` kubectl <action> <component> [options]```
 

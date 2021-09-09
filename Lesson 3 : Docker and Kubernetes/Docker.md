@@ -10,7 +10,7 @@ In traditional approach Applications run on Guest operation system. This guest o
 ![VM based architecture](https://github.com/ishashankkawle/Udacity-SUSE-Learnings/blob/9f712118e6b9f472d73a30fb5e7e5d4b11cfa1ba/Lesson%203%20:%20Docker%20and%20Kubernetes/Images/VM%20based%20architecture.png "VM based architecture")
  
  - ### Docker Approach
-  When we use docker deployment technique, we install Docker Daemon on the top of Host OS. Docker daemon is completely different from Guest OS and provides runtime environment for containers. Hence the entire Guest OS layer get removed from architecture.
+  When we use docker deployment technique, we install Docker Demon on the top of Host OS. Docker demon is completely different from Guest OS and provides runtime environment for containers. Hence the entire Guest OS layer get removed from architecture.
 
 ![Docker based architecture](https://github.com/ishashankkawle/Udacity-SUSE-Learnings/blob/9f712118e6b9f472d73a30fb5e7e5d4b11cfa1ba/Lesson%203%20:%20Docker%20and%20Kubernetes/Images/Docker%20based%20architecture.png "Docker based architecture")
 
